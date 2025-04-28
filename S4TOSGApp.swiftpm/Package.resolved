@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "sbjgauge",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/dsjove/SbjGauge",
+      "state" : {
+        "revision" : "7a57ff1b7f0b53cbc50ba1ae2d471b58b171eaae",
+        "version" : "1.1.0"
+      }
+    }
+  ],
+  "version" : 2
+}

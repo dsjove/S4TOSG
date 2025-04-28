@@ -1,6 +1,8 @@
 import SwiftUI
 
 /*
+ Please open the App Preview panel and select "Compile-time Decision".
+ 
  This contrived example shows the difference between runtime polymorphism and compile-time polymorphism;
  preferring compile-time decisions over runtime decisions.
  
@@ -143,7 +145,7 @@ struct ContentViewCompileTime: View {
     }
 }
 
-struct ContentView: View {
+struct CompileTimeDecisionExampleView: View {
     var body: some View {
         VStack(spacing: 20) {
             ContentViewRuntime()
