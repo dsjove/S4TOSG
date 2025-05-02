@@ -34,7 +34,7 @@ import SbjGauge
  Let say we are making an analog gauge view for a client...
  */
 
-// We put a line needle on a circle background.
+// We put a rotating line needle on a circle background.
 // This works.
 struct SimpleGaugeView: View {
     let value: Double
@@ -73,7 +73,7 @@ struct ÜberGaugeView: View {
     init(
         value: Double,
         backgroundSize: Double = 200,
-        backgroundColor: Color = Color.blue,
+        backgroundColor: Color = Color.mint,
         needleWidth: Double = 4.0,
         needleLength: Double = 75,
         needleColor: Color = Color.red
@@ -119,6 +119,8 @@ struct ÜberGaugeView: View {
  The SbjGauge built-in StandardView, as demonstrated in the preview, only needs 1 declarative to instantiate. This is not an Über class. It cannot be customized. The only value it exposes is the model to calculate the needle angle and tick values.
  
   StandardView was my ÜberView. Everytime I thought of a new customization, I had to change its public interface. That got too much.
+ 
+  https://github.com/dsjove/SbjGaugexw
  */
 struct StandardGaugeView : View {
     let model: SbjGauge.StandardModel
@@ -136,34 +138,32 @@ struct InsideOutGaugeView: View {
     let model: StandardModel
     var body: some View {
         // It is recommended to create a GaugeGeometryView to help layering.
-        GaugeGeometryView() { geom in
+        Standard.GeometryView() { geom in
             // Then the client can build out the gauge however they need with the components they need.
             
-            // Use the standard backround. Or not.
+            // Use the standard background. Or not.
             Standard.BackgroundView(geom: geom, color: Emotion.colorForMood(model[norm: 0]))
         
-            // Add indicators using a built-in layout
+            // Add indicators using a built-in layout.
             Standard.RadialIndicatorsView(geom: geom, model: model) { model, width in
-                Text("Inside Out")
+                Text("Inside-Out")
                 Standard.defaultIndicator(
                     label: Emotion.face(model[0]), 
                     width: width)
             }
             
-            // We can still layer in any SwiftUIView
+            // We can still layer in any SwiftUIView.
             Circle().stroke()
             
-            // RadialNeedlesView can rotate any 'LEGO Piece'...
-            Standard.RadialNeedlesView(geom: geom, model: model, clockwise: false) { _ in
-                // ...including the Tick View.
-                Standard.RadialTickView(geom, model, model.ticks[0]) { notch in
-                    // Draw our unicode smiley faces
-                    Standard.TickTextView(
-                        geom: geom,
-                        text: Emotion.face(notch.value ),
-                        length: 0.25)
-                }
+            // ...including the Tick View.
+            Standard.RadialTickView(geom, model, model.ticks[0]) { notch in
+                // Draw our unicode smiley faces
+                Standard.TickTextView(
+                    geom: geom,
+                    text: Emotion.face(notch.value),
+                    length: 0.25)
             }
+            .radialRotate(model.needle(), clockwise: false)
             
             // The client wanted a different style stationary needle.
             Clock.SecondsHandView(geom: geom, radius: 0.70,  color: Color.black)
@@ -238,7 +238,7 @@ struct CompositionalExampleView: View {
                 //minTrackColor: Color, 
                 //maxTrackColor: Color
             ) { value in
-                self.model.values[0] = value
+                self.model[0] = value
             }
             .frame(height: 42)
             
@@ -252,7 +252,7 @@ struct CompositionalExampleView: View {
                 ÜberGaugeView(value: model[norm: 0])
             }
             else if selectedOption == 1 {
-                Standard.StandardView(model)
+                StandardGaugeView(model: model)
             }
             else if selectedOption == 2 {
                 InsideOutGaugeView(model: model)

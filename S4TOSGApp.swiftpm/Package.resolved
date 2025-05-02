@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/dsjove/SbjGauge",
       "state" : {
-        "revision" : "7a57ff1b7f0b53cbc50ba1ae2d471b58b171eaae",
-        "version" : "1.1.0"
+        "revision" : "cdb8dcf9caa68f54cfebfbc32e2316703bb46061",
+        "version" : "1.2.0"
       }
     }
   ],
